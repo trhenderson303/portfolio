@@ -2,22 +2,26 @@
     box-sizing: border-box;
 }
 
+/* the root element sets variables that apply to multiple other elements and can be easily modified */
 :root{
     --dark: #132929;
-    --green: #368867;
-    --light: #62D17A;
+    --light: #b6d9cb;
+    --green: #62D17A;
     --font-a: 'Rambla', sans-serif;
 }
 
+/* the header element contains a 'position: fixed' tag, which pins it to the top of the window */
+/* the header element contains a 'display: flex' tag, which creates a flex container */ 
+/* the header element has a width of 100vw, which ensures that it will span the top of the window, regardless of screen size */
 header{
     position: fixed;
     display: flex;
     justify-content: flex-start;
     background-color: var(--dark);
-    width: 100%;
-    height: 100px;
+    width: 100vw;
+    min-height: 100px;
     padding: 1% 1% 2% 2%;
-    z-index: 1;
+    z-index: 2;
 }
 
 header h1{
@@ -27,8 +31,8 @@ header h1{
     font-weight: 700;
     width: 50%;
     left: 0%;
-    color: var(--light);
-    font-size: 250%;
+    color: var(--green);
+    font-size: 48pt;
     margin-right: 5%;
 }
 
@@ -44,16 +48,23 @@ nav a{
     color: white;
     text-decoration: none;
     font-family: var(--font-a);
-    font-size: 120%;
+    font-size: 16pt;
     font-weight: 400;
 }
 
+nav a:hover{
+    color: var(--light);
+}
+
+/* the main element has a position of relative, allowing the main element to be positioned below the header by setting the 'top' property to 100px */
 main{
     position: relative;
     top: 100px;
     display:flex;
+    justify-content: center;
     flex-wrap: wrap;
-    width: 100%;
+    width: 100vw;
+    background-color: var(--light);
 }
 
 main p{
@@ -65,56 +76,155 @@ main p{
 }
 
 main h2{
-    padding: 10px;
+    padding: 12px;
     color: var(--dark);
     font-family: var(--font-a); 
-    font-size: 24pt;
+    font-size: 36pt;
 }
 
-aside{
-    flex: 1 0 20vw;
-    position: absolute;
-    left: 0%;
-    width: 20vw;
-    background-color: var(--green);
-}
-
+/* the content elements function as flex containers for the 'aside' and 'section' elements */
+/* setting the width to 95vw, in combination with the 'justify-content: center' tag in the parent element creates a nice, spacious feel */
 content{
-    flex: 1 0 80vw;
-    position: absolute;
-    right: 0%;
-    width: 80vw;
+    width: 95vw;
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
+/* the aside section primarily houses the h2 tags, which demarcate the three main sections of the page */
+aside{
+    flex: 1 0 20vw;
+    position: relative;
+    left: 0%;
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/*the position of the section tags is set to relative, creating a container in which subheadings can be placed so as to overlay images using the 'absolute' position property */
 section{
-    width: 50%;
-    background-color: var(--light);
+    width: 75%;
+    right: 0;
     overflow: hidden;
-    border: solid 1px;
+    margin: 1%;
+    position: relative;
 }
 
-.wide{
-    flex: 100%;
-    display: block;
-    flex-shrink: 0;
+/* adding id tags for each of the content tags allows for navigation from the nav bar, and gives a small bottom border to each topic */
+#about {
+    border-bottom: solid 2px;
 }
 
-.reg{
-    flex: 50%;
-    display: inline-block;
-    flex-shrink: 0;
+#projects {
+    border-bottom: solid 2px;
 }
 
+#contact {
+    border-bottom: solid 2px;
+}
 
+#contact a{
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    text-decoration: none;
+    font-size: 20pt;
+}
+
+/* setting the max-width property to 100% and the object-fit property to cover allows for images to scale and fit their containers properly */
 section img{
     max-width: 100%;
     flex-shrink: 50%;
     object-fit: cover;
     opacity: 50%;
+    border: solid 2px var(--dark);
 }
+
+/* adding a brighter border and reducing the opacity when hovered over helps the user identify the item they are clicking */
+section img:hover{
+    opacity: 90%;
+    border: solid 4px var(--green);
+}
+
+/* the half class allows for some of the project images to be displayed smaller and fit inline with one another */
+.half{
+    max-width: 36.5%;
+}
+
+/* the h3 element is given an absolute position and a z-index of 1, allowing it to take an absolute position overlaying the images within their parent section elements */
+section h3{
+    padding: 10px;
+    color: var(--dark);
+    font-family: var(--font-a); 
+    font-size: 24pt;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+}
+
+/* the media query from 1024px - 640px is intended to make small changes to help contents render on tablets */
+@media screen and (max-width: 1024px) and (min-width: 640px) {
+    main{
+        top: 150px;
+    }
+}
+
+/*the media query with a max-width of 640px is intended to reconfigure the contents to render well on mobile phones */
+/* the flex direction of the main element changes to column, so as to display items in block style */
+@media screen and (max-width: 640px) {
+    nav{
+        flex-direction: column;
+        justify-content: space-around;
+        padding-right: 5%;
+    }
+    main{
+        flex-direction: column;
+    }
+    content{
+        flex-direction: column;
+        align-items: center;
+    }
+    header h1{
+        font-size: 32pt;
+    }
+    main h2{
+        font-size: 30px;
+    }
+    section h3{
+        font-size: 20pt;
+    }
+    aside{
+        width: 80%;
+        justify-content: flex-start;
+    }
+    section{
+        width: 80%;
+    }
+
+    .half{
+        flex-grow: 2.5;
+        min-width: 80%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
